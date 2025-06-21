@@ -5,6 +5,8 @@ libs = ['node_modules', 'lib']
 remappings = []
 solc = '0.8.24'
 evm_version = 'paris'
+fs_permissions = [{ access = "read", path = "./" }]
+
 
 [rpc_endpoints]
 ethereumSepolia = "${ETHEREUM_SEPOLIA_RPC_URL}"
@@ -27,10 +29,37 @@ bsquaredTestnet = "${BSQUARED_TESTNET_RPC_URL}"
 bobSepolia = "${BOB_SEPOLIA_RPC_URL}"
 worldchainSepolia = "${WORLDCHAIN_SEPOLIA_RPC_URL}"
 shibariumTestnet = "${SHIBARIUM_TESTNET_RPC_URL}"
-bitlayerTestnet= "${BITLAYER_TESTNET_RPC_URL}"
+bitlayerTestnet = "${BITLAYER_TESTNET_RPC_URL}"
 fantomSonicTestnet = "${FANTOM_SONIC_TESTNET_RPC_URL}"
 cornTestnet = "${CORN_TESTNET_RPC_URL}"
 hashkeySepolia = "${HASHKEY_SEPOLIA_RPC_URL}"
 inkSepolia = "${INK_SEPOLIA_RPC_URL}"
+
+[etherscan]
+ethereumSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+optimismGoerli = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+avalancheFuji = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+arbitrumSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+polygonMumbai = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+bnbChainTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+baseSepolia = { key = "${BASE_SEPOLIA_API_KEY}" }
+metisSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+zksyncSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+scrollSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+zircuitSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+xlayerSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+polygonZkevmSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+polkadotAstarShibuya = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+mantleSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+soneiumMinatoSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+bsquaredTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+bobSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+worldchainSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+shibariumTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+bitlayerTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+fantomSonicTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+cornTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+hashkeySepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+inkSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
