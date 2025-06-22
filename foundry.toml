@@ -10,7 +10,7 @@ fs_permissions = [{ access = "read", path = "./" }]
 
 [rpc_endpoints]
 ethereumSepolia = "${ETHEREUM_SEPOLIA_RPC_URL}"
-optimismGoerli = "${OPTIMISM_SEPOLIA_RPC_URL}"
+optimismSepolia = "${OPTIMISM_SEPOLIA_RPC_URL}"
 avalancheFuji = "${AVALANCHE_FUJI_RPC_URL}"
 arbitrumSepolia = "${ARBITRUM_SEPOLIA_RPC_URL}"
 baseSepolia = "${BASE_SEPOLIA_RPC_URL}"
