@@ -38,5 +38,5 @@ USDC -> ETH (Arbitrum)
 
 
 ## Other Tasks
-- [ ] Issue with chainlink 
+- [ ] Issue with Chainlink dependency installation (wrong paths in Chainlink repos)
 - [x] Script to fetch network details and newly deployed contracts

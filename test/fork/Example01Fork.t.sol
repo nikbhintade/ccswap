@@ -20,9 +20,7 @@ contract Example01ForkTest is Test {
     IERC20 public sourceLinkToken;
 
     function setUp() public {
-        string memory DESTINATION_RPC_URL = vm.envString(
-            "ETHEREUM_SEPOLIA_RPC_URL"
-        );
+        string memory DESTINATION_RPC_URL = vm.envString("ETHEREUM_SEPOLIA_RPC_URL");
         string memory SOURCE_RPC_URL = vm.envString("ARBITRUM_SEPOLIA_RPC_URL");
         destinationFork = vm.createSelectFork(DESTINATION_RPC_URL);
         sourceFork = vm.createFork(SOURCE_RPC_URL);
@@ -33,31 +31,21 @@ contract Example01ForkTest is Test {
         ccipLocalSimulatorFork = new CCIPLocalSimulatorFork();
         vm.makePersistent(address(ccipLocalSimulatorFork));
 
-        Register.NetworkDetails
-            memory destinationNetworkDetails = ccipLocalSimulatorFork
-                .getNetworkDetails(block.chainid);
-        destinationCCIPBnMToken = BurnMintERC677Helper(
-            destinationNetworkDetails.ccipBnMAddress
-        );
+        Register.NetworkDetails memory destinationNetworkDetails =
+            ccipLocalSimulatorFork.getNetworkDetails(block.chainid);
+        destinationCCIPBnMToken = BurnMintERC677Helper(destinationNetworkDetails.ccipBnMAddress);
         destinationChainSelector = destinationNetworkDetails.chainSelector;
 
         vm.selectFork(sourceFork);
-        Register.NetworkDetails
-            memory sourceNetworkDetails = ccipLocalSimulatorFork
-                .getNetworkDetails(block.chainid);
-        sourceCCIPBnMToken = BurnMintERC677Helper(
-            sourceNetworkDetails.ccipBnMAddress
-        );
+        Register.NetworkDetails memory sourceNetworkDetails = ccipLocalSimulatorFork.getNetworkDetails(block.chainid);
+        sourceCCIPBnMToken = BurnMintERC677Helper(sourceNetworkDetails.ccipBnMAddress);
         sourceLinkToken = IERC20(sourceNetworkDetails.linkAddress);
         sourceRouter = IRouterClient(sourceNetworkDetails.routerAddress);
     }
 
     function prepareScenario()
         public
-        returns (
-            Client.EVMTokenAmount[] memory tokensToSendDetails,
-            uint256 amountToSend
-        )
+        returns (Client.EVMTokenAmount[] memory tokensToSendDetails, uint256 amountToSend)
     {
         vm.selectFork(sourceFork);
         vm.startPrank(alice);
@@ -67,19 +55,13 @@ contract Example01ForkTest is Test {
         sourceCCIPBnMToken.approve(address(sourceRouter), amountToSend);
 
         tokensToSendDetails = new Client.EVMTokenAmount[](1);
-        tokensToSendDetails[0] = Client.EVMTokenAmount({
-            token: address(sourceCCIPBnMToken),
-            amount: amountToSend
-        });
+        tokensToSendDetails[0] = Client.EVMTokenAmount({token: address(sourceCCIPBnMToken), amount: amountToSend});
 
         vm.stopPrank();
     }
 
     function test_transferTokensFromEoaToEoaPayFeesInLink() external {
-        (
-            Client.EVMTokenAmount[] memory tokensToSendDetails,
-            uint256 amountToSend
-        ) = prepareScenario();
+        (Client.EVMTokenAmount[] memory tokensToSendDetails, uint256 amountToSend) = prepareScenario();
         vm.selectFork(destinationFork);
         uint256 balanceOfBobBefore = destinationCCIPBnMToken.balanceOf(bob);
 
@@ -92,9 +74,7 @@ contract Example01ForkTest is Test {
             receiver: abi.encode(bob),
             data: abi.encode(""),
             tokenAmounts: tokensToSendDetails,
-            extraArgs: Client._argsToBytes(
-                Client.EVMExtraArgsV1({gasLimit: 0})
-            ),
+            extraArgs: Client._argsToBytes(Client.EVMExtraArgsV1({gasLimit: 0})),
             feeToken: address(sourceLinkToken)
         });
 
@@ -112,10 +92,7 @@ contract Example01ForkTest is Test {
     }
 
     function test_transferTokensFromEoaToEoaPayFeesInNative() external {
-        (
-            Client.EVMTokenAmount[] memory tokensToSendDetails,
-            uint256 amountToSend
-        ) = prepareScenario();
+        (Client.EVMTokenAmount[] memory tokensToSendDetails, uint256 amountToSend) = prepareScenario();
         vm.selectFork(destinationFork);
         uint256 balanceOfBobBefore = destinationCCIPBnMToken.balanceOf(bob);
 
@@ -129,9 +106,7 @@ contract Example01ForkTest is Test {
             receiver: abi.encode(bob),
             data: abi.encode(""),
             tokenAmounts: tokensToSendDetails,
-            extraArgs: Client._argsToBytes(
-                Client.EVMExtraArgsV1({gasLimit: 0})
-            ),
+            extraArgs: Client._argsToBytes(Client.EVMExtraArgsV1({gasLimit: 0})),
             feeToken: address(0)
         });
 

@@ -40,7 +40,23 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
                                FUNCTIONS
     //////////////////////////////////////////////////////////////*/
 
-    // swap: token address, receiver address, slipage 
+    // swap: token address, receiver address, slipage
+    function swap(
+        uint64 destinationChainSelector,
+        uint256 amount,
+        uint256 slipage,
+        address tokenAddress,
+        address receiver
+    ) external returns (bytes32 messageId) {
+        // transfer token from sender to this contract
+        IERC20 token = IERC20(tokenAddress);
+        SafeERC20.safeTransferFrom(token, msg.sender, address(this), amount);
+
+        // swap token for ccipBnM
+
+        // transfer ccipBnM to destination chain
+    }
+
     function sendMessage(uint64 destinationChainSelector, uint256 gasLimit, address receiver, string calldata message)
         external
         returns (bytes32 messageId)

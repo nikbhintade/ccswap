@@ -36,30 +36,23 @@ hashkeySepolia = "${HASHKEY_SEPOLIA_RPC_URL}"
 inkSepolia = "${INK_SEPOLIA_RPC_URL}"
 
 [etherscan]
-ethereumSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+sepolia = { key = "${ETHEREUM_SEPOLIA_API_KEY}" }
 optimismGoerli = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 avalancheFuji = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 arbitrumSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 polygonMumbai = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-bnbChainTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 baseSepolia = { key = "${BASE_SEPOLIA_API_KEY}" }
-metisSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 zksyncSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 scrollSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 zircuitSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 xlayerSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-polygonZkevmSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-polkadotAstarShibuya = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 mantleSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 soneiumMinatoSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-bsquaredTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 bobSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 worldchainSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 shibariumTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-bitlayerTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-fantomSonicTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-cornTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
-hashkeySepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 inkSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
+[profile.uniswap]
+solc-version = "0.7.6"

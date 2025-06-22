@@ -10,11 +10,9 @@ contract DeployProgrammableTokenTransfers is Script, Helper {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
-        (address router, , , ) = getConfigFromNetwork(network);
+        (address router,,,) = getConfigFromNetwork(network);
 
-        ProgrammableTokenTransfers programmableTokenTransfers = new ProgrammableTokenTransfers(
-                router
-            );
+        ProgrammableTokenTransfers programmableTokenTransfers = new ProgrammableTokenTransfers(router);
 
         console.log(
             "ProgrammableTokenTransfers contract deployed on ",
@@ -39,15 +37,10 @@ contract SendTokensAndData is Script, Helper {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
-        (, , , uint64 destinationChainId) = getConfigFromNetwork(destination);
+        (,,, uint64 destinationChainId) = getConfigFromNetwork(destination);
 
-        bytes32 messageId = ProgrammableTokenTransfers(sender).sendMessage(
-            destinationChainId,
-            receiver,
-            message,
-            token,
-            amount
-        );
+        bytes32 messageId =
+            ProgrammableTokenTransfers(sender).sendMessage(destinationChainId, receiver, message, token, amount);
 
         console.log(
             "You can now monitor the status of your Chainlink CCIP Message via https://ccip.chain.link using CCIP Message ID: "

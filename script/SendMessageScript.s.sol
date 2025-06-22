@@ -8,17 +8,13 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract SendMessageScript is NetworkDetailsLoader {
     function run() external {
-        
         address ccswapAddressBase = getDeployedAddress("baseSepolia", "CCSwap");
         address ccswapAddressArbitrum = getDeployedAddress("arbitrumSepolia", "CCSwap");
-        
+
         console.log("CCSwap address on Base Sepolia:", ccswapAddressBase);
         console.log("CCSwap address on Arbitrum Sepolia:", ccswapAddressArbitrum);
-        
-        require(
-            ccswapAddressBase != address(0) && ccswapAddressArbitrum != address(0),
-            "CCSwap addresses not found"
-        );
+
+        require(ccswapAddressBase != address(0) && ccswapAddressArbitrum != address(0), "CCSwap addresses not found");
 
         // Load network details for Base Sepolia and Arbitrum Sepolia
         NetworkDetailsLoader.NetworkDetails memory arbitrumSepoliaDetails = load("arbitrumSepolia");

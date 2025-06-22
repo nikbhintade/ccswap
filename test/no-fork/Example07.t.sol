@@ -19,21 +19,11 @@ contract Example07Test is Test {
     function setUp() public {
         ccipLocalSimulator = new CCIPLocalSimulator();
 
-        (
-            uint64 chainSelector,
-            IRouterClient sourceRouter,
-            IRouterClient destinationRouter,
-            ,
-            LinkToken link,
-            ,
-
-        ) = ccipLocalSimulator.configuration();
+        (uint64 chainSelector, IRouterClient sourceRouter, IRouterClient destinationRouter,, LinkToken link,,) =
+            ccipLocalSimulator.configuration();
 
         myNFT = new MyNFT();
-        destinationMinter = new DestinationMinter(
-            address(destinationRouter),
-            address(myNFT)
-        );
+        destinationMinter = new DestinationMinter(address(destinationRouter), address(myNFT));
         myNFT.transferOwnership(address(destinationMinter));
 
         sourceMinter = new SourceMinter(address(sourceRouter), address(link));
@@ -43,17 +33,10 @@ contract Example07Test is Test {
     }
 
     function test_executeReceivedMessageAsFunctionCall() external {
-        ccipLocalSimulator.requestLinkFromFaucet(
-            address(sourceMinter),
-            5 ether
-        );
+        ccipLocalSimulator.requestLinkFromFaucet(address(sourceMinter), 5 ether);
 
         vm.startPrank(alice);
-        sourceMinter.mint(
-            destinationChainSelector,
-            address(destinationMinter),
-            SourceMinter.PayFeesIn.LINK
-        );
+        sourceMinter.mint(destinationChainSelector, address(destinationMinter), SourceMinter.PayFeesIn.LINK);
         vm.stopPrank();
 
         assertEq(myNFT.balanceOf(alice), 1);

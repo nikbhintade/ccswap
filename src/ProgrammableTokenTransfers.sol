@@ -98,12 +98,7 @@ contract ProgrammableTokenTransfers is CCIPReceiver, OwnerIsCreator {
             receiver: abi.encode(receiver), // ABI-encoded receiver address
             data: abi.encode(message), // ABI-encoded string message
             tokenAmounts: tokenAmounts, // Tokens amounts
-            extraArgs: Client._argsToBytes(
-                Client.GenericExtraArgsV2({
-                    gasLimit: 200_000,
-                    allowOutOfOrderExecution: true
-                })
-            ),
+            extraArgs: Client._argsToBytes(Client.GenericExtraArgsV2({gasLimit: 200_000, allowOutOfOrderExecution: true})),
             feeToken: address(0) // Setting feeToken to zero address, indicating native asset will be used for fees
         });
 
