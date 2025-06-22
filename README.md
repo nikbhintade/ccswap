@@ -26,7 +26,8 @@ USDC -> ETH (Arbitrum)
 - [ ] Testnet deployment (EVM Testnets)
     - [x] Deployment script
     - [ ] Multiple Test Token creation
-    - [ ] Pool creation script (XYZ token + CCIP- BnM token)
+    - [x] Pool creation script (XYZ token + CCIP- BnM token)
+    - [x] Token Swap script
 - [ ] Basic swap widget and wallet interaction (FE)
 - [ ] Token lists addition (FE)
 - [ ] Status checking page (FE)
@@ -38,5 +39,5 @@ USDC -> ETH (Arbitrum)
 
 
 ## Other Tasks
-- [ ] Issue with Chainlink dependency installation (wrong paths in Chainlink repos)
+- [x] ~~Issue with Chainlink dependency installation (wrong paths in Chainlink repos)~~ currently this issue solved with just using starterkit which doesn't have this issue but while installing it myself I faced this issue, I am gonna come back to that
 - [x] Script to fetch network details and newly deployed contracts
