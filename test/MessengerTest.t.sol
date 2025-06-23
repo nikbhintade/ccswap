@@ -21,7 +21,6 @@ contract MessengerTest is Test {
     uint64 public destinationChainSelector;
 
     function setUp() public {
-
         // dummy uniswap router address
         address uniRouter = address(0);
 
@@ -42,7 +41,7 @@ contract MessengerTest is Test {
         console.log("Sender address:", address(sender));
         receiver = new Messenger(address(destinationRouter), address(link), address(ccipBnM), uniRouter);
         console.log("Receiver address:", address(receiver));
-        
+
         destinationChainSelector = chainSelector;
     }
 

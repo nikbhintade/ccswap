@@ -34,6 +34,7 @@ fantomSonicTestnet = "${FANTOM_SONIC_TESTNET_RPC_URL}"
 cornTestnet = "${CORN_TESTNET_RPC_URL}"
 hashkeySepolia = "${HASHKEY_SEPOLIA_RPC_URL}"
 inkSepolia = "${INK_SEPOLIA_RPC_URL}"
+celoAlfajores = "${CELO_ALFAJORES_RPC_URL}"
 
 [etherscan]
 sepolia = { key = "${ETHEREUM_SEPOLIA_API_KEY}" }
@@ -52,6 +53,7 @@ bobSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 worldchainSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 shibariumTestnet = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 inkSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
+celoAlfajores = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
 [profile.uniswap]

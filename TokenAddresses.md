@@ -7,8 +7,9 @@ Verification status:
 - ~~Arbitrum Sepolia~~
 - ~~Avalanche Fuji~~
 - ~~Base Sepolia~~
+- ~~Celo Alfajores~~
 
-```text
+```
   Deployed [ETH Hedera] at: 0xc5aaba5a2bf9bafe78402728da518b8b629f3808
   Deployed [ETH Aptos] at: 0xf8ba235ae8cb078200b5525786f91c9b6043cfa6
   Deployed [ETH Near] at: 0x398bf9558a02c927865bd6b51999a47a0e76de67
@@ -21,7 +22,7 @@ Verification status:
   Deployed [ETH The Graph] at: 0xdf5225d6842e708625e1f616b5ae7c450851b64a
 
   Deployed [BASE Hedera] at: 0x777b48ef08a87933e0d0f10881aea1f653a2d497
-  Deployed [BASE Aptos] at: 0x482d44f610200bd112e43642f365d67ab0e23450
+  Deployed [BASE Aptos] at: 0x482d44f610200bd112e43642f365d67ab0e23450 [DONE]
   Deployed [BASE Near] at: 0x99fd15aa0bd8273253eb5b6a7835d109bc1afaac
   Deployed [BASE Uniswap] at: 0xc6d422e6a10ae87d3860776776f3ece23e7494ff
   Deployed [BASE Polkadot] at: 0x5b44356d786cc61c745748ceb3b3651c6c40dcf1
@@ -63,5 +64,16 @@ Verification status:
   Deployed [OP Aave] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
   Deployed [OP Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
   Deployed [OP The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
+
+  Deployed [CELO Hedera] at: 0x8de497ab5eb1069e3b4777207d9ad45ebde4a86d
+  Deployed [CELO Aptos] at: 0xca43b352f6db42e7cb1d588b7e06c9de1e87b14b
+  Deployed [CELO Near] at: 0x03fb43c87d888278ed8c353ada1f06589802cf09
+  Deployed [CELO Uniswap] at: 0xaad29c847afbb3d4b6f7a22c57ea28de8222d577
+  Deployed [CELO Polkadot] at: 0x2a7ee9cfb04343157da9c84d011036f037696ea0
+  Deployed [CELO Sui] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
+  Deployed [CELO USD Coin] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
+  Deployed [CELO Aave] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
+  Deployed [CELO Sei] at: 0xfecaac337c404d39944c64b6a174bdadd1269f63
+  Deployed [CELO The Graph] at: 0x2b840386388dfd96a29b17583fb1c58e913eebd8
 
 ```

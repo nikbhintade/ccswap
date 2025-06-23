@@ -12,16 +12,12 @@ contract SwapTokens is Script {
     address private constant UNISWAP_SWAP_ROUTER_2 = 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E;
 
     function run() external {
-        Token tokenA = Token(0x6110497BB349F84452b92E012B4D6394B5A41AC0);
-        Token tokenB = Token(0x8325708abD29A98DA3988b43737eA7E82F7395B9);
-
-        uint256 tokenBBalance = tokenB.balanceOf(msg.sender);
-        console.log("Message Sender:", msg.sender);
-        console.log("   Token B Balance:", tokenBBalance);
+        Token tokenA = Token(0xfe0A862C3d5aD3AbFc7340312D4aB37F772A545A); // ETH Polkadot address
+        // Token tokenB = Token(0x8325708abD29A98DA3988b43737eA7E82F7395B9);
 
         uint24 fee = 500;
 
-        uint256 amountToSwap = 1 ether;
+        uint256 amountToSwap = 0.1 ether;
 
         vm.startBroadcast();
 
@@ -31,7 +27,7 @@ contract SwapTokens is Script {
 
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter.ExactInputSingleParams({
             tokenIn: address(tokenA),
-            tokenOut: address(tokenB),
+            tokenOut: 0xFd57b4ddBf88a4e07fF4e34C487b99af2Fe82a05, // ccipBnM address
             fee: fee,
             recipient: msg.sender,
             amountIn: amountToSwap,
@@ -42,8 +38,5 @@ contract SwapTokens is Script {
         swapRouter.exactInputSingle(params);
 
         vm.stopBroadcast();
-
-        tokenBBalance = tokenB.balanceOf(msg.sender);
-        console.log("   Token B Balance after swap:", tokenBBalance);
     }
 }

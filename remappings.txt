@@ -6,3 +6,4 @@ forge-std/=lib/forge-std/src/
 @chainlink/local/=node_modules/@chainlink/local/
 @uniswap/v3-periphery=lib/v3-periphery/
 @uniswap/v3-core=lib/v3-core/
+@uniswap/swap-router/contracts/=lib/swap-router-contracts/contracts/

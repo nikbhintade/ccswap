@@ -31,10 +31,6 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
                                VARIABLES
     //////////////////////////////////////////////////////////////*/
 
-    IERC20 private s_linkToken;
-    IERC20 private s_ccipBnM;
-    address private s_uniRouter;
-
     // Note: fixed fee for mainnet release is not ideal so it should be replaced correct fees
     uint24 private constant POOL_FEE = 500; // 0.05% fee for Uniswap V3
 
@@ -45,37 +41,50 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
     address private s_lastReceivedTokenAddress; // Store the last received token address.
     uint256 private s_lastReceivedTokenAmount; // Store the last received amount.
 
-    mapping(uint64 => address) public destinationChainCCSwapAddress;
+    mapping(uint256 => address) public destinationChainCCSwapAddress;
+    mapping(uint256 => address) public uniswapRouterAddress;
+    mapping(uint256 => address) public linkTokenAddressByChainSelector;
+    mapping(uint256 => address) public ccipBnMAddressByChainSelector;
+    mapping(uint64 => uint256) public chainIdByChainSelector;
 
-    constructor(address router, address link, address ccipBnM, address uniRouter) CCIPReceiver(router) {
-        s_linkToken = IERC20(link);
-        s_ccipBnM = IERC20(ccipBnM);
-        s_uniRouter = uniRouter;
-    }
+    constructor(address router) CCIPReceiver(router) {}
 
     /*//////////////////////////////////////////////////////////////
                                FUNCTIONS
     //////////////////////////////////////////////////////////////*/
 
+    function setChainConfig(
+        uint256 blockChainId,
+        address ccswap,
+        address uniswapRouter,
+        address linkToken,
+        address ccipBnM
+    ) external /* onlyOwner */ {
+        destinationChainCCSwapAddress[blockChainId] = ccswap;
+        uniswapRouterAddress[blockChainId] = uniswapRouter;
+        linkTokenAddressByChainSelector[blockChainId] = linkToken;
+        ccipBnMAddressByChainSelector[blockChainId] = ccipBnM;
+    }
+
+    function setChainIdByChainSelector(uint64 chainSelector, uint256 chainId) external /* onlyOwner */ {
+        chainIdByChainSelector[chainSelector] = chainId;
+    }
+
     // swap: token address, receiver address, slipage
-    function swap(
-        uint64 destinationChainSelector,
-        uint256 amount,
-        address token0,
-        address token1,
-        address receiver,
-        uint256 gasLimit
-    ) external returns (bytes32 messageId) {
+    function swap(uint64 destinationChainSelector, uint256 amount, address token0, address token1, uint256 gasLimit)
+        external
+        returns (bytes32 messageId)
+    {
         // transfer token from sender to this contract
         SafeERC20.safeTransferFrom(IERC20(token0), msg.sender, address(this), amount);
 
         // approve token for router
-        TransferHelper.safeApprove(token0, s_uniRouter, amount);
+        TransferHelper.safeApprove(token0, uniswapRouterAddress[block.chainid], amount);
 
         // ExactInputSingleParams for Uniswap V3
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter.ExactInputSingleParams({
             tokenIn: token0,
-            tokenOut: address(s_ccipBnM),
+            tokenOut: address(ccipBnMAddressByChainSelector[block.chainid]),
             fee: POOL_FEE,
             recipient: address(this),
             amountIn: amount,
@@ -84,30 +93,41 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         });
 
         // swap token for ccipBnM
-        uint256 amountOut = IV3SwapRouter(s_uniRouter).exactInputSingle(params);
+        uint256 amountOut = IV3SwapRouter(uniswapRouterAddress[block.chainid]).exactInputSingle(params);
         delete params;
 
-        require(amountOut > 0, "Swap failed: No ccipBnM received");
-
         // approve ccipBnM for router
-        TransferHelper.safeApprove(address(s_ccipBnM), getRouter(), amountOut);
+        TransferHelper.safeApprove(address(ccipBnMAddressByChainSelector[block.chainid]), getRouter(), amountOut);
 
         // create order. order structure: {receiver, token address}
 
-        bytes memory order = abi.encode(receiver, token1);
+        bytes memory order = abi.encode(msg.sender, token1);
+
+        uint256 destinationChainId = chainIdByChainSelector[destinationChainSelector];
 
         // build CCIP message
         Client.EVM2AnyMessage memory ccipMessage = _buildCCIPMessage(
-            destinationChainCCSwapAddress[destinationChainSelector], address(s_linkToken), gasLimit, amountOut, order
+            destinationChainSelector,
+            destinationChainCCSwapAddress[destinationChainId],
+            address(linkTokenAddressByChainSelector[block.chainid]),
+            gasLimit,
+            amountOut,
+            order
         );
+
+        IRouterClient router = IRouterClient(getRouter());
+        uint256 fees = router.getFee(destinationChainSelector, ccipMessage);
+
+        IERC20(address(linkTokenAddressByChainSelector[block.chainid])).approve(getRouter(), fees);
 
         // send CCIP message
         messageId = IRouterClient(getRouter()).ccipSend(destinationChainSelector, ccipMessage);
 
-        emit CCSwapInitiated(messageId, destinationChainSelector, msg.sender, token0, token1, amount);
+        // emit CCSwapInitiated(messageId, destinationChainSelector, msg.sender, token0, token1, amount);
     }
 
     function _buildCCIPMessage(
+        uint64 destinationChainSelector,
         address receiver,
         address feeTokenAddress,
         uint256 gasLimit,
@@ -115,7 +135,9 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         bytes memory order
     ) internal view returns (Client.EVM2AnyMessage memory) {
         Client.EVMTokenAmount[] memory tokenAmounts = new Client.EVMTokenAmount[](1);
-        tokenAmounts[0] = Client.EVMTokenAmount({token: address(s_ccipBnM), amount: amount});
+        tokenAmounts[0] =
+            Client.EVMTokenAmount({token: address(ccipBnMAddressByChainSelector[block.chainid]), amount: amount});
+
         return Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
             data: order,
@@ -126,6 +148,8 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
     }
 
     function _ccipReceive(Client.Any2EVMMessage memory message) internal override {
+        address uniswapRouter = uniswapRouterAddress[block.chainid];
+
         // Decode the message data
         (address receiver, address tokenAddress) = abi.decode(message.data, (address, address));
 
@@ -134,11 +158,11 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         address tokenReceived = message.destTokenAmounts[0].token;
 
         // approve the token amount for uniswap router
-        TransferHelper.safeApprove(tokenReceived, s_uniRouter, amountReceived);
+        TransferHelper.safeApprove(tokenReceived, uniswapRouter, amountReceived);
 
         // exactInputSingleParams for Uniswap V3
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter.ExactInputSingleParams({
-            tokenIn: address(s_ccipBnM),
+            tokenIn: address(ccipBnMAddressByChainSelector[block.chainid]),
             tokenOut: tokenAddress,
             fee: POOL_FEE,
             recipient: receiver,
@@ -148,6 +172,6 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         });
 
         // swap ccipBnM for token
-        uint256 amountOut = IV3SwapRouter(s_uniRouter).exactInputSingle(params);
+        IV3SwapRouter(uniswapRouter).exactInputSingle(params);
     }
 }

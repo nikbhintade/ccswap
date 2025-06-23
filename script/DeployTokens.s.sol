@@ -38,7 +38,7 @@ contract DeployTokens is Script {
         // token extensions for each network
         chainSymbols = ["ETH", "BASE", "ARB", "OP", "AVAX"];
 
-        string memory chainSymbol = "OP";
+        string memory chainSymbol = "CELO";
 
         // // RPC URLs for each network
         // chainRPCs = ["ethereumSepolia", "baseSepolia", "arbitrumSepolia", "optimismGoerli", "avalancheFuji"];

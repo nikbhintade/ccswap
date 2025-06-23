@@ -14,19 +14,18 @@ contract UniswapLP is Script {
     /*//////////////////////////////////////////////////////////////
                                   VARIABLES
     //////////////////////////////////////////////////////////////*/
-    address private constant UNISWAP_FACTORY = 0x0227628f3F023bb0B980b67D528571c95c6DaC1c;
-    address private constant UNISWAP_NONFUNGIBLE_POSITION_MANAGER = 0x1238536071E1c677A632429e3655c799b22cDA52;
+
+    // current addresses are for Celo Alfajores testnet
+    address private constant UNISWAP_FACTORY = 0x229Fd76DA9062C1a10eb4193768E192bdEA99572;
+    address private constant UNISWAP_NONFUNGIBLE_POSITION_MANAGER = 0x0eC9d3C06Bc0A472A80085244d897bb604548824;
 
     function run() external {
         // Start recording logs
         vm.recordLogs();
 
-        // deploy tokens
-        vm.broadcast();
-        Token tokenA = new Token("Token A", "TKA");
+        Token tokenA = Token(0xaADA75c8438FBee9948Ad907B417bAC0609C94F0);
 
-        vm.broadcast();
-        Token tokenB = new Token("Token B", "TKB");
+        address tokenB = 0x7e503dd1dAF90117A1b79953321043d9E6815C72;
 
         IUniswapV3Factory factory = IUniswapV3Factory(UNISWAP_FACTORY);
 
@@ -71,7 +70,7 @@ contract UniswapLP is Script {
 
         vm.startBroadcast();
 
-        uint256 amountToMint = 10 ether;
+        uint256 amountToMint = 2 ether;
         INonfungiblePositionManager positionManager = INonfungiblePositionManager(UNISWAP_NONFUNGIBLE_POSITION_MANAGER);
         INonfungiblePositionManager.MintParams memory params = INonfungiblePositionManager.MintParams({
             token0: address(tokenA),
@@ -84,11 +83,14 @@ contract UniswapLP is Script {
             amount0Min: 0,
             amount1Min: 0,
             recipient: msg.sender,
-            deadline: block.timestamp + 1 days
+            deadline: block.timestamp + 1 hours
         });
 
         tokenA.mint(msg.sender);
-        tokenB.mint(msg.sender);
+
+        (bool success,) = tokenB.call(abi.encodeWithSignature("drip(address)", msg.sender));
+        (success,) = tokenB.call(abi.encodeWithSignature("drip(address)", msg.sender));
+        (success,) = tokenB.call(abi.encodeWithSignature("drip(address)", msg.sender));
 
         TransferHelper.safeApprove(address(tokenA), address(positionManager), UINT256_MAX);
         TransferHelper.safeApprove(address(tokenB), address(positionManager), UINT256_MAX);
