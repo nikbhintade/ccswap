@@ -1,6 +1,12 @@
 ## Token Addresses
 
-Deploying tokens on Optimism and verifying token contracts on different network is remaining. Not sure how many networks have these tokens contracts verified so check that first.
+~~Deploying tokens on Optimism~~ ~~and verifying token contracts on different network is remaining. Not sure how many networks have these tokens contracts verified so check that first.~~
+Verification status:
+- ~~Optimism Sepolia~~
+- ~~Sepolia~~
+- ~~Arbitrum Sepolia~~
+- ~~Avalanche Fuji~~
+- ~~Base Sepolia~~
 
 ```text
   Deployed [ETH Hedera] at: 0xc5aaba5a2bf9bafe78402728da518b8b629f3808
@@ -46,5 +52,16 @@ Deploying tokens on Optimism and verifying token contracts on different network 
   Deployed [AVAX Aave] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
   Deployed [AVAX Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
   Deployed [AVAX The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
+
+  Deployed [OP Hedera] at: 0xe4b3a31823b703809cf9db163a20bd706099c846
+  Deployed [OP Aptos] at: 0x369841a81df5174891e7c3663e6d228d65b4fea6
+  Deployed [OP Near] at: 0x8de497ab5eb1069e3b4777207d9ad45ebde4a86d
+  Deployed [OP Uniswap] at: 0xca43b352f6db42e7cb1d588b7e06c9de1e87b14b
+  Deployed [OP Polkadot] at: 0x03fb43c87d888278ed8c353ada1f06589802cf09
+  Deployed [OP Sui] at: 0xaad29c847afbb3d4b6f7a22c57ea28de8222d577
+  Deployed [OP USD Coin] at: 0x2a7ee9cfb04343157da9c84d011036f037696ea0
+  Deployed [OP Aave] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
+  Deployed [OP Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
+  Deployed [OP The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
 
 ```

@@ -2,7 +2,7 @@
 pragma solidity 0.8.24;
 
 import {console2 as console} from "forge-std/Script.sol";
-import {CCSwap} from "src/CCSwap.sol";
+import {Messenger} from "src/Messenger.sol";
 import {NetworkDetailsLoader} from "./utils/NetworkDetailsLoader.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -20,7 +20,7 @@ contract SendMessageScript is NetworkDetailsLoader {
         NetworkDetailsLoader.NetworkDetails memory arbitrumSepoliaDetails = load("arbitrumSepolia");
         NetworkDetailsLoader.NetworkDetails memory baseSepoliaDetails = load("baseSepolia");
 
-        CCSwap ccswap = CCSwap(ccswapAddressBase);
+        Messenger ccswap = Messenger(ccswapAddressBase);
         IERC20 linkToken = IERC20(baseSepoliaDetails.linkToken);
 
         vm.startBroadcast();

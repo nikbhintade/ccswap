@@ -25,11 +25,7 @@ contract SwapTokens is Script {
 
         vm.startBroadcast();
 
-        TransferHelper.safeApprove(
-            address(tokenA),
-            UNISWAP_SWAP_ROUTER_2,
-            amountToSwap
-        );
+        TransferHelper.safeApprove(address(tokenA), UNISWAP_SWAP_ROUTER_2, amountToSwap);
 
         IV3SwapRouter swapRouter = IV3SwapRouter(UNISWAP_SWAP_ROUTER_2);
 

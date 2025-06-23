@@ -38,7 +38,7 @@ contract DeployTokens is Script {
         // token extensions for each network
         chainSymbols = ["ETH", "BASE", "ARB", "OP", "AVAX"];
 
-        string memory chainSymbol = "AVAX"; 
+        string memory chainSymbol = "OP";
 
         // // RPC URLs for each network
         // chainRPCs = ["ethereumSepolia", "baseSepolia", "arbitrumSepolia", "optimismGoerli", "avalancheFuji"];
@@ -53,32 +53,32 @@ contract DeployTokens is Script {
         //         break;
         //     }
 
-            // loop through token names
-            for (uint256 j = 0; j < tokenNames.length; j++) {
-                // break after single token deployment on each chain
-                if (j > 11) {
-                    break;
-                }
-
-                string memory tokenName = string.concat(chainSymbol, " ", tokenNames[j]);
-                string memory tokenSymbol = string.concat(chainSymbol, "-", tokenSymbols[j]);
-
-                Token token;
-                // create a select fork for the chain using the RPC URL
-                // vm.createSelectFork(vm.rpcUrl(chainRPCs[i]));
-
-                // deploy each token
-                vm.startBroadcast();
-
-                token = new Token(tokenName, tokenSymbol);
-                vm.stopBroadcast();
-
-                // log the deployed token address
-                string memory message = string.concat(
-                    "Deployed [", chainSymbol, " ", tokenNames[j], "] at: ", Strings.toHexString(address(token))
-                );
-                console.log(message);
+        // loop through token names
+        for (uint256 j = 0; j < tokenNames.length; j++) {
+            // break after single token deployment on each chain
+            if (j > 11) {
+                break;
             }
+
+            string memory tokenName = string.concat(chainSymbol, " ", tokenNames[j]);
+            string memory tokenSymbol = string.concat(chainSymbol, "-", tokenSymbols[j]);
+
+            Token token;
+            // create a select fork for the chain using the RPC URL
+            // vm.createSelectFork(vm.rpcUrl(chainRPCs[i]));
+
+            // deploy each token
+            vm.startBroadcast();
+
+            token = new Token(tokenName, tokenSymbol);
+            vm.stopBroadcast();
+
+            // log the deployed token address
+            string memory message = string.concat(
+                "Deployed [", chainSymbol, " ", tokenNames[j], "] at: ", Strings.toHexString(address(token))
+            );
+            console.log(message);
+        }
         // }
     }
 }

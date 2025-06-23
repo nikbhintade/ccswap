@@ -13,19 +13,13 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {TransferHelper} from "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import {IV3SwapRouter} from "src/interfaces/IV3SwapRouter.sol";
 
-contract CCSwap is CCIPReceiver, OwnerIsCreator {
+contract Messenger is CCIPReceiver, OwnerIsCreator {
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
 
-    event CCSwapInitiated(
-        bytes32 indexed messageId,
-        uint64 indexed destinationChainSelector,
-        address indexed sender,
-        address token0,
-        address token1,
-        uint256 amountToken0
-    );
+    event MessageReceived(bytes32 messageId, string message, address sender, address tokenAddress, uint256 tokenAmount);
+    event MessageSent(bytes32 messageId, string message, address receiver);
 
     /*//////////////////////////////////////////////////////////////
                                VARIABLES
@@ -44,8 +38,6 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
     string latestMessage;
     address private s_lastReceivedTokenAddress; // Store the last received token address.
     uint256 private s_lastReceivedTokenAmount; // Store the last received amount.
-
-    mapping(uint64 => address) public destinationChainCCSwapAddress;
 
     constructor(address router, address link, address ccipBnM, address uniRouter) CCIPReceiver(router) {
         s_linkToken = IERC20(link);
@@ -67,7 +59,8 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         uint256 gasLimit
     ) external returns (bytes32 messageId) {
         // transfer token from sender to this contract
-        SafeERC20.safeTransferFrom(IERC20(token0), msg.sender, address(this), amount);
+        IERC20 token = IERC20(token0);
+        SafeERC20.safeTransferFrom(token, msg.sender, address(this), amount);
 
         // approve token for router
         TransferHelper.safeApprove(token0, s_uniRouter, amount);
@@ -85,26 +78,35 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
 
         // swap token for ccipBnM
         uint256 amountOut = IV3SwapRouter(s_uniRouter).exactInputSingle(params);
-        delete params;
-
         require(amountOut > 0, "Swap failed: No ccipBnM received");
 
         // approve ccipBnM for router
         TransferHelper.safeApprove(address(s_ccipBnM), getRouter(), amountOut);
 
-        // create order. order structure: {receiver, token address}
+        // transfer ccipBnM to destination chain
+        Client.EVM2AnyMessage memory ccipMessage =
+            _buildCCIPMessage(receiver, address(s_linkToken), gasLimit, amountOut, "");
+    }
 
-        bytes memory order = abi.encode(receiver, token1);
+    function sendMessage(uint64 destinationChainSelector, uint256 gasLimit, address receiver, string memory message)
+        external
+        returns (bytes32 messageId)
+    {
+        Client.EVM2AnyMessage memory ccipMessage =
+            _buildCCIPMessage(receiver, address(s_linkToken), gasLimit, 1 ether, message);
 
-        // build CCIP message
-        Client.EVM2AnyMessage memory ccipMessage = _buildCCIPMessage(
-            destinationChainCCSwapAddress[destinationChainSelector], address(s_linkToken), gasLimit, amountOut, order
-        );
+        IRouterClient router = IRouterClient(this.getRouter());
 
-        // send CCIP message
-        messageId = IRouterClient(getRouter()).ccipSend(destinationChainSelector, ccipMessage);
+        uint256 fees = router.getFee(destinationChainSelector, ccipMessage);
 
-        emit CCSwapInitiated(messageId, destinationChainSelector, msg.sender, token0, token1, amount);
+        s_linkToken.transferFrom(msg.sender, address(this), fees);
+        s_linkToken.approve(address(router), fees);
+        s_ccipBnM.approve(address(router), 1 ether);
+
+        messageId = router.ccipSend(destinationChainSelector, ccipMessage);
+        emit MessageSent(messageId, message, receiver);
+
+        return messageId;
     }
 
     function _buildCCIPMessage(
@@ -112,42 +114,35 @@ contract CCSwap is CCIPReceiver, OwnerIsCreator {
         address feeTokenAddress,
         uint256 gasLimit,
         uint256 amount,
-        bytes memory order
+        string memory message
     ) internal view returns (Client.EVM2AnyMessage memory) {
         Client.EVMTokenAmount[] memory tokenAmounts = new Client.EVMTokenAmount[](1);
         tokenAmounts[0] = Client.EVMTokenAmount({token: address(s_ccipBnM), amount: amount});
         return Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
-            data: order,
+            data: abi.encode(message),
             tokenAmounts: tokenAmounts, // No token transfers
             extraArgs: Client._argsToBytes(Client.GenericExtraArgsV2({gasLimit: gasLimit, allowOutOfOrderExecution: true})),
             feeToken: feeTokenAddress
         });
     }
 
+    function getLatestMessageDetails() public view returns (bytes32, uint64, address, string memory) {
+        return (latestMessageId, latestSourceChainSelector, latestSender, latestMessage);
+    }
+
     function _ccipReceive(Client.Any2EVMMessage memory message) internal override {
-        // Decode the message data
-        (address receiver, address tokenAddress) = abi.decode(message.data, (address, address));
+        latestMessageId = message.messageId;
+        latestSourceChainSelector = message.sourceChainSelector;
+        latestSender = abi.decode(message.sender, (address));
+        latestMessage = abi.decode(message.data, (string));
 
-        // Get the amount of ccipBnM received
-        uint256 amountReceived = message.destTokenAmounts[0].amount;
-        address tokenReceived = message.destTokenAmounts[0].token;
+        s_lastReceivedTokenAddress = message.destTokenAmounts[0].token;
+        s_lastReceivedTokenAmount = message.destTokenAmounts[0].amount;
 
-        // approve the token amount for uniswap router
-        TransferHelper.safeApprove(tokenReceived, s_uniRouter, amountReceived);
+        string memory msgData = abi.decode(message.data, (string));
+        address sender = abi.decode(message.sender, (address));
 
-        // exactInputSingleParams for Uniswap V3
-        IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter.ExactInputSingleParams({
-            tokenIn: address(s_ccipBnM),
-            tokenOut: tokenAddress,
-            fee: POOL_FEE,
-            recipient: receiver,
-            amountIn: amountReceived,
-            amountOutMinimum: amountReceived - (amountReceived / 200), // slipage in basis points
-            sqrtPriceLimitX96: 0
-        });
-
-        // swap ccipBnM for token
-        uint256 amountOut = IV3SwapRouter(s_uniRouter).exactInputSingle(params);
+        emit MessageReceived(message.messageId, msgData, sender, s_lastReceivedTokenAddress, s_lastReceivedTokenAmount);
     }
 }

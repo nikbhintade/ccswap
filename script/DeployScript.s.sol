@@ -10,7 +10,7 @@ contract DeployScript is NetworkDetailsLoader {
         NetworkDetailsLoader.NetworkDetails memory networkDetails = load(network);
 
         vm.startBroadcast();
-        CCSwap ccswap = new CCSwap(networkDetails.router, networkDetails.linkToken, networkDetails.ccipBnM);
+        CCSwap ccswap = new CCSwap(networkDetails.router, networkDetails.linkToken, networkDetails.ccipBnM, address(0));
         vm.stopBroadcast();
         console.log("CCSwap deployed at:", address(ccswap));
 

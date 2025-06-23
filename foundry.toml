@@ -37,7 +37,7 @@ inkSepolia = "${INK_SEPOLIA_RPC_URL}"
 
 [etherscan]
 sepolia = { key = "${ETHEREUM_SEPOLIA_API_KEY}" }
-optimismSepolia = { key = "${OPTIMISM_SEPOLIA_RPC_URL}" }
+optimismSepolia = { key = "${OPTIMISM_SEPOLIA_API_KEY}" }
 avalancheFuji = { key = "${AVALANCHE_FUJI_RPC_URL}" }
 arbitrumSepolia = { key = "${ARBITRUM_SEPOLIA_API_KEY}" }
 polygonAmoy = { key = "${POLYGON_AMOY_RPC_URL}" }
