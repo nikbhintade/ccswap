@@ -9,6 +9,7 @@ import {IUniswapV3Pool} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Po
 import {INonfungiblePositionManager} from "@uniswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol";
 import {TickMath} from "@uniswap/v3-core/contracts/libraries/TickMath.sol";
 import {TransferHelper} from "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract CreateLP is Script {
     address private constant BASE_CCIPBNM_ADDRESS = 0x88A2d74F47a237a62e7A51cdDa67270CE381555e;
@@ -75,7 +76,7 @@ contract CreateLP is Script {
             token1: ccipBnM,
             fee: 500,
             tickLower: -100,
-            tickUpper: 100,
+            tickUpper: 10000,
             amount0Desired: 100 ether,
             amount1Desired: 3 ether,
             amount0Min: 0,
@@ -97,5 +98,7 @@ contract CreateLP is Script {
         vm.stopBroadcast();
 
         console.log("LP Token ID:", tokenId);
+
+        // uint256 balance = IERC20(token0).balanceOf(tokenId);
     }
 }
