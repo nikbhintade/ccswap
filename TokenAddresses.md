@@ -43,16 +43,6 @@ Verification status:
   Deployed [ARB Sei] at: 0xecdd105565c8e45ce13f0ffd354ca0a15e9cda8e
   Deployed [ARB The Graph] at: 0xf1a4bf0438ab20d7c6a09626c4d6158333abb343
 
-  Deployed [AVAX Hedera] at: 0xe4b3a31823b703809cf9db163a20bd706099c846
-  Deployed [AVAX Aptos] at: 0x369841a81df5174891e7c3663e6d228d65b4fea6
-  Deployed [AVAX Near] at: 0x8de497ab5eb1069e3b4777207d9ad45ebde4a86d
-  Deployed [AVAX Uniswap] at: 0xca43b352f6db42e7cb1d588b7e06c9de1e87b14b
-  Deployed [AVAX Polkadot] at: 0x03fb43c87d888278ed8c353ada1f06589802cf09
-  Deployed [AVAX Sui] at: 0xaad29c847afbb3d4b6f7a22c57ea28de8222d577
-  Deployed [AVAX USD Coin] at: 0x2a7ee9cfb04343157da9c84d011036f037696ea0
-  Deployed [AVAX Aave] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
-  Deployed [AVAX Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
-  Deployed [AVAX The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
 
   Deployed [OP Hedera] at: 0xe4b3a31823b703809cf9db163a20bd706099c846
   Deployed [OP Aptos] at: 0x369841a81df5174891e7c3663e6d228d65b4fea6
@@ -65,6 +55,12 @@ Verification status:
   Deployed [OP Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
   Deployed [OP The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
 
+ DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE 
+ DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE 
+ DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE 
+ DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE DO NOT USE 
+
+
   Deployed [CELO Hedera] at: 0x8de497ab5eb1069e3b4777207d9ad45ebde4a86d
   Deployed [CELO Aptos] at: 0xca43b352f6db42e7cb1d588b7e06c9de1e87b14b
   Deployed [CELO Near] at: 0x03fb43c87d888278ed8c353ada1f06589802cf09
@@ -75,5 +71,17 @@ Verification status:
   Deployed [CELO Aave] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
   Deployed [CELO Sei] at: 0xfecaac337c404d39944c64b6a174bdadd1269f63
   Deployed [CELO The Graph] at: 0x2b840386388dfd96a29b17583fb1c58e913eebd8
+
+  
+  Deployed [AVAX Hedera] at: 0xe4b3a31823b703809cf9db163a20bd706099c846
+  Deployed [AVAX Aptos] at: 0x369841a81df5174891e7c3663e6d228d65b4fea6
+  Deployed [AVAX Near] at: 0x8de497ab5eb1069e3b4777207d9ad45ebde4a86d
+  Deployed [AVAX Uniswap] at: 0xca43b352f6db42e7cb1d588b7e06c9de1e87b14b
+  Deployed [AVAX Polkadot] at: 0x03fb43c87d888278ed8c353ada1f06589802cf09
+  Deployed [AVAX Sui] at: 0xaad29c847afbb3d4b6f7a22c57ea28de8222d577
+  Deployed [AVAX USD Coin] at: 0x2a7ee9cfb04343157da9c84d011036f037696ea0
+  Deployed [AVAX Aave] at: 0x8ad0d9ff78c7aa5458ae539f5428ad6c23fc2bc0
+  Deployed [AVAX Sei] at: 0xc73549a7ec9b710f7ab195baba2b7ef3d8b1206e
+  Deployed [AVAX The Graph] at: 0xaada75c8438fbee9948ad907b417bac0609c94f0
 
 ```
