@@ -1,0 +1,18 @@
+## Test Swap Transactions
+
+Ethereum Sepolia
+- 0x60fa3fef4eeee26685f38ac6082fce9180f0f1f53c81b8a1284cc133078892d7 eth-arb
+- 0xd3f96cba789e1f1b83bacb3e5c3b025e11d1d2f3521967119f991e92a69e0783 eth-arb
+- 0xe2c4eb1127df4f903e0f8e84ec788f2f15c8a3e7c4e072e017e89a5645b9bda3 eth-op
+
+Arbitrum Sepolia
+- 0x9a05b3604885249aa6f7a6cdee9548c36ea8e93a53b982b5029897fccf6c718d arb-base
+- 0xdbe602198a0d77851e246fa806d9dfdb6fc42878bfba2014a0f5e1a5db9cf227 arb-eth
+
+Base Sepolia
+- 0x2b383ac720c7f3b7f2b7a57384a3a2564f963c21ddfda6c7b8662a70da8ebe21 base-op
+- 0x5e991720b7a848f527f3d9cc5780de1b0560e243e9909444cd3c4624869709a3 base-arb
+
+Op Sepolia
+- 0x2c2f15afe5acd3ee7c3e8982f29d1339dd49442e2ffd1d0cf2e6b77a72bcbd15 op-eth
+- 0xc949bc45e4df5ca433bd738bb266ab8f3ea350e424f0eedeee4cffc8c3065034 op-arb

@@ -13,7 +13,7 @@ contract SwapTokens is Script {
 
     function run() external {
         Token tokenA = Token(0xfe0A862C3d5aD3AbFc7340312D4aB37F772A545A); // ETH Polkadot address
-        // Token tokenB = Token(0x8325708abD29A98DA3988b43737eA7E82F7395B9);
+        Token tokenB = Token(0x8325708abD29A98DA3988b43737eA7E82F7395B9);
 
         uint24 fee = 500;
 
@@ -27,7 +27,7 @@ contract SwapTokens is Script {
 
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter.ExactInputSingleParams({
             tokenIn: address(tokenA),
-            tokenOut: 0xFd57b4ddBf88a4e07fF4e34C487b99af2Fe82a05, // ccipBnM address
+            tokenOut: address(tokenB),
             fee: fee,
             recipient: msg.sender,
             amountIn: amountToSwap,
