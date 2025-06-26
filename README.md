@@ -18,29 +18,32 @@ USDC -> ETH (Arbitrum)
 ## Tasks
 
 - [x] Cross-chain message tansfer
-- [x] Local Testing
+- [x] Testing
 - [x] Cross-chain message + token transfer
 - [x] Testing
 - [x] Swap token on DEXes
-- [ ] Testing
-- [ ] Testnet deployment (EVM Testnets)
+- [x] Testing
+- [x] Testnet deployment (EVM Testnets)
     - [x] Deployment script
     - [x] Multiple Test Token creation (multi-chain script doesn't work due to foundry issue so need to use script on each network separately)
     - [x] Pool creation script (XYZ token + CCIP- BnM token)
-    - [x] Token Swap script
-- [ ] Basic swap widget and wallet interaction (FE)
-- [ ] Token lists addition (FE)
+    - [x] Set configuration script
+    - [x] Cross-Chain Token Swap script
+- [x] Basic swap widget and wallet interaction (FE)
+- [x] Token lists addition (FE)
 - [ ] Status checking page (FE)
 - [ ] Solana program - cross-chain message and token transfer
 - [ ] Testing on devnet
 - [ ] Test Token creation & Pool creation on Raydium
 - [ ] Cross Program invocation to swap from EVM to Solana
 - [ ] Swap from Solana to EVM
+- [x] Simulated output of swap with backend
+- [x] Deploy Server
 
 
 ## Other Tasks
 - [x] ~~Issue with Chainlink dependency installation (wrong paths in Chainlink repos)~~ currently this issue solved with just using starterkit which doesn't have this issue but while installing it myself I faced this issue, I am gonna come back to that
 - [x] Script to fetch network details and newly deployed contracts
 - [x] Deploying Tokens on Testnets (~~one testnet remaining~~)
-- [ ] Get ccipBnM on all those Testnet
-- [ ] Create ccipBnM + our token pools on Testnets
+- [x] Get ccipBnM on all those Testnet
+- [x] Create ccipBnM + our token pools on Testnets
